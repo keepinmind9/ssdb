@@ -382,4 +382,30 @@ Status ClientImpl::zrscan(const std::string &name, const std::string &key_start,
 	return _read_list(resp, ret);
 }
 
+Status ClientImpl::zrandomkeys(const std::string &name, const std::string &key_start,
+        int64_t *score_start, int64_t *score_end,
+        uint64_t limit, std::vector<std::string> *ret)
+{       
+        std::string s_score_start = score_start? int_to_str(*score_start) : "";
+        std::string s_score_end = score_end? int_to_str(*score_end) : "";
+        std::string s_limit = uint64_to_str(limit);
+        const std::vector<std::string> *resp;
+        resp = this->request("zrandomkeys", name, key_start, s_score_start, s_score_end, s_limit);
+        return _read_list(resp, ret);
+}
+
+
+Status ClientImpl::zrandom(const std::string &name, const std::string &key_start,
+        int64_t *score_start, int64_t *score_end,
+        uint64_t limit, std::vector<std::string> *ret)
+{
+        std::string s_score_start = score_start? int_to_str(*score_start) : "";
+        std::string s_score_end = score_end? int_to_str(*score_end) : "";
+        std::string s_limit = uint64_to_str(limit);
+        const std::vector<std::string> *resp;
+        resp = this->request("zrandom", name, key_start, s_score_start, s_score_end, s_limit);
+        return _read_list(resp, ret);
+}
+
+
 }; // namespace ssdb
