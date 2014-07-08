@@ -38,6 +38,7 @@ volatile bool quit = false;
 volatile uint32_t g_ticks = 0;
 
 int main(int argc, char **argv){
+	srand((unsigned)time(NULL));
 	welcome();
 	init(argc, argv);
 	
