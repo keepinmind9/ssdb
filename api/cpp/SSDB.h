@@ -198,6 +198,14 @@ public:
 	virtual Status zrscan(const std::string &name, const std::string &key_start,
 		int64_t *score_start, int64_t *score_end,
 		uint64_t limit, std::vector<std::string> *ret) = 0;
+		
+	virtual Status zrandom(const std::string &name, const std::string &key_start,
+                int64_t *score_start, int64_t *score_end,
+                uint64_t limit, std::vector<std::string> *ret) = 0;
+
+	virtual Status zrandomkeys(const std::string &name, const std::string &key_start,
+                int64_t *score_start, int64_t *score_end,
+                uint64_t limit, std::vector<std::string> *ret) = 0;
 	/// @}
 
 private:
