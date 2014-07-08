@@ -47,6 +47,8 @@ function show_command_help(){
 	print '	zlist name_start name_end limit';
 	print '	zkeys name key_start score_start score_end limit';
 	print '	zscan name key_start score_start score_end limit';
+	print ' zrandomkeys name key_start score_start score_end limit';
+	print ' zrandom name key_start score_start score_end limit';
 	print '# FLUSH DATABASE';
 	print '	flushdb';
 	print '	flushdb kv';
@@ -571,6 +573,7 @@ while(true){
 				sys.stderr.write(sprintf('%d result(s) (%.3f sec)\n', len(resp.data['index']), time_consume));
 				break;
 			case 'zscan':
+			case 'zrandom':
 			case 'zrscan':
 			case 'zrange':
 			case 'zrrange':
@@ -585,6 +588,7 @@ while(true){
 			case 'keys':
 			case 'list':
 			case 'zkeys':
+			case 'zrandomkeys':
 			case 'hkeys':
 				printf('  %15s\n', 'key');
 				print ('-' * 17);
