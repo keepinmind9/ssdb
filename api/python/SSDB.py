@@ -133,8 +133,8 @@ class SSDB(object):
 					pass
 					return SSDB_Response(resp[0])
 				break
-			if False or ((cmd) == 'keys') or ((cmd) == 'zkeys') or ((cmd) == 'hkeys') or ((cmd) == 'list') or ((cmd) == 'hlist') or ((cmd) == 'zlist'):
-				pass
+			if False or ((cmd) == 'keys') or ((cmd) == 'zkeys') or ((cmd) == 'zrandomkeys')  or ((cmd) == 'hkeys') or ((cmd) == 'list') or ((cmd) == 'hlist') or ((cmd) == 'zlist'):
+				pass 
 				data = []
 
 				if resp[0]=='ok':
@@ -175,8 +175,8 @@ class SSDB(object):
 					pass
 					return SSDB_Response(resp[0])
 				break
-			if False or ((cmd) == 'zscan') or ((cmd) == 'zrscan') or ((cmd) == 'zrange') or ((cmd) == 'zrrange'):
-				pass
+			if False or ((cmd) == 'zscan') or ((cmd) == 'zrandom') or ((cmd) == 'zrscan') or ((cmd) == 'zrange') or ((cmd) == 'zrrange'):
+				pass 
 
 				if resp[0]=='ok':
 					pass
