@@ -111,6 +111,9 @@ static proc_map_t proc_map;
 	DEF_PROC(multi_zset);
 	DEF_PROC(multi_zdel);
 	
+	DEF_PROC(zrandom);
+	DEF_PROC(zrandomkeys);
+	
 	DEF_PROC(qsize);
 	DEF_PROC(qfront);
 	DEF_PROC(qback);
@@ -212,6 +215,10 @@ static Command commands[] = {
 	PROC(multi_zget, "rt"),
 	PROC(multi_zset, "wt"),
 	PROC(multi_zdel, "wt"),
+	
+	PROC(zrandom, "rt"),
+	PROC(zrandomkeys, "rt"),
+	
 
 	PROC(qsize, "r"),
 	PROC(qfront, "r"),
