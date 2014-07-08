@@ -1,4 +1,8 @@
 /* zset */
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#define random(x) (rand()%x)
 
 static int proc_zexists(Server *serv, Link *link, const Request &req, Response *resp){
 	if(req.size() < 3){
@@ -527,5 +531,82 @@ static int proc_zremrangebyrank(Server *serv, Link *link, const Request &req, Re
 	resp->push_back("ok");
 	resp->push_back(buf);
 	return 0;
+}
+
+
+static int proc_zrandom(Server *serv, Link *link, const Request &req, Response *resp){
+        if(req.size() < 6){
+                resp->push_back("client_error");
+        }else{
+                uint64_t limit = req[5].Uint64();
+                if(0 == limit){
+                        resp->push_back("client_error");
+                        return 0 ;
+                }
+                ZIterator *it = serv->ssdb->zscan(req[1], req[2], req[3], req[4], -1);
+                resp->push_back("ok");
+                std::vector<std::string> keys;
+                std::vector<std::string> values;
+                while(it->next()){
+                        keys.push_back(it->key);
+                        values.push_back(it->score);
+                }
+                uint64_t allSize = keys.size();
+                uint64_t size = keys.size();
+                for(uint64_t i = 0 ; i < allSize ; i++){
+                        bool toPush = false ;
+                        if(size <= limit || random(size) < limit){
+                             toPush = true ;
+                        }
+                        if(toPush){
+                                resp->push_back(keys[i]);
+                                resp->push_back(values[i]);
+                                limit-- ;
+                                if( 0 == limit){
+                                        break ;
+                                }
+                        }
+                        size-- ;
+                }
+                delete it;
+        }
+        return 0;
+}
+
+
+static int proc_zrandomkeys(Server *serv, Link *link, const Request &req, Response *resp){
+        if(req.size() < 6){
+                resp->push_back("client_error");
+        }else{
+                uint64_t limit = req[5].Uint64();
+                if( 0 == limit ){
+                        resp->push_back("client_error");
+                        return 0 ;
+                }
+                ZIterator *it = serv->ssdb->zscan(req[1], req[2], req[3], req[4], -1);
+                resp->push_back("ok");
+                std::vector<std::string> keys;
+                while(it->next()){
+                        keys.push_back(it->key);
+                }
+                uint64_t allSize = keys.size();
+                uint64_t size = keys.size();
+                for(uint64_t i = 0 ; i < allSize ; i++){
+                        bool toPush = false ;
+                        if(size <= limit || random(size) < limit){
+                             toPush = true ;
+                        }
+                        if(toPush){
+                                resp->push_back(keys[i]);
+                                limit-- ;
+                                if(0 == limit){
+                                        break ;
+                                }
+                        }
+                        size-- ;
+                }
+                delete it;
+        }
+        return 0;
 }
 
